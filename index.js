@@ -8,7 +8,6 @@ const xml2js = require('xml2js');
 
 let app = express()
 
-
 var job = new CronJob(
     '*/1 * * * * *',
     function () {
@@ -38,11 +37,12 @@ function roku() {
                 // console.log(result.player['$'].state)
                 state = result.player['$'].state
 
-                if (state === 'pause' || state === 'close') {
+                if (state === 'pause') {
                     let theatreWallLights = '192.168.86.77'
                     const client = new Client();
                     const plug = client.getDevice({ host: theatreWallLights }).then((device) => {
                         // device.getSysInfo().then(console.log);
+                        // turns lights on
                         device.setPowerState(true);
                     });
                 } else if (state === 'play') {
@@ -50,6 +50,7 @@ function roku() {
                     const client = new Client();
                     const plug = client.getDevice({ host: theatreWallLights }).then((device) => {
                         // device.getSysInfo().then(console.log);
+                        // turns lights off
                         device.setPowerState(false);
                     });
                 }
@@ -65,20 +66,20 @@ function roku() {
 // app.get('/roku', (req, res) => {
 //     // http://192.168.86.238:8060/query/media-player
 
-
+ 
 // })
 
-app.get('/', (req, res) => {
+// app.get('/', (req, res) => {
 
-    // 192.168.86.77
-    let theatreWallLights = '192.168.86.77'
-    const client = new Client();
-    const plug = client.getDevice({ host: theatreWallLights }).then((device) => {
-        // device.getSysInfo().then(console.log);
-        device.setPowerState(false);
-    });
+//     // 192.168.86.77
+//     let theatreWallLights = '192.168.86.77'
+//     const client = new Client();
+//     const plug = client.getDevice({ host: theatreWallLights }).then((device) => {
+//         // device.getSysInfo().then(console.log);
+//         device.setPowerState(false);
+//     });
 
-})
+// })
 
 
 
